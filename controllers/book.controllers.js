@@ -1,51 +1,108 @@
-const db = require('../models');
-const books = db.books;
-exports.getAllBooks = (req, res) => {
-  books
-    .find()
-    .then((data) => res.send(data))
-    .catch((err) => {
-      res.send(err.message).status(500);
+const express = require('express');
+const { getAllBook, getBookById, createBook, deleteBook, updateBook } = require('../models/book.model');
+
+export const getAllBook = async (req, res) => {
+  try {
+    const book = await getAllBook();
+    return res.status(200).json({
+      message: 'Success',
+      data: book,
     });
-};
-exports.getBook = (req, res) => {
-  const id = req.params.id;
-  books
-    .findById(id)
-    .then((data) => res.send(data))
-    .catch((err) => {
-      res.send(err.message).status(500);
+  } catch (error) {
+    return res.status(500).json({
+      message: 'Internal server error',
     });
+  }
 };
-exports.updateBook = (req, res) => {
-  const id = req.params.id;
-  books
-    .findByIdAndUpdate(id, req.body)
-    .then((data) => {
-      if (!data) {
-        res.status(404).send({ message: 'tidak dapat mengupdate data' });
-      }
-      res.send({ message: 'data berhasil diupdate' });
+
+export const getBookById = async (req, res) => {
+  try {
+    const id = req.params;
+    const book = await getBookById(id);
+    return res.status(200).json({
+      message: 'Success',
+      data: book,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: 'Internal server error',
+    });
+  }
+};
+
+export const createBook = async (req, res) => {
+  try {
+    const { name, author, genre, published } = req.body;
+
+    if (!name || !author || !genre || !published) {
+      res.status(400).json({
+        message: 'Harap lengkapi identitas buku terlebih dahulu',
+      });
+    }
+
+    const book = await createBook({
+      name,
+      author,
+      genre,
+      published,
+    });
+
+    return res.status(200).json({
+      message: 'Buku berhasil ditambah',
+      data: book,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: 'Internal server error',
+    });
+  }
+};
+
+export const deleteBook = async (req, res) => {
+  try {
+    const id = req.params;
+    const book = await deleteBook(id);
+    return res.status(200).json({
+      message: 'Success',
+      data: book,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: 'Internal server error',
+    });
+  }
+};
+
+export const updateBook = async (req, res) => {
+  try {
+    const id = req.params;
+    const existedBook = await getBookById(id);
+    if (!existedBook) {
+      return res.status(404).json({
+        message: `Buku dengan id: ${id} tidak ditemukan`,
+      });
+    }
+
+    const { name, author, published, genre } = req.body;
+
+    const updated = await updateBook(id, {
+      name,
+      author,
+      published,
+      genre,
+    });
+
+    const updatedBook = await getBookById(id);
+    
+    if (updated) {
+      return res.status(200).json({
+        message: "Success",
+        data: updatedBook
+      })
+    }
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal error"
     })
-    .catch((err) => res.status(500).send({ message: err.message }));
-};
-exports.deleteBook = (req, res) => {
-  const id = req.params.id;
-  books
-    .findByIdAndDelete(id)
-    .then((data) => {
-      if (!data) {
-        res.status(404).send({ message: 'tidak dapat menghapus data' });
-      }
-      res.send({ message: 'data berhasil dihapus' });
-    })
-    .catch((err) => res.status(500).send({ message: err.message }));
-};
-exports.createBook = (req, res) => {
-  books
-    .create(req.body)
-    .then(() => res.send({ message: 'data berhasil disimpan' }))
-    .catch((err) => {
-      res.send(err.message).status(500);
-    });
+  }
 };
