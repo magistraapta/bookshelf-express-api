@@ -9,25 +9,37 @@ exports.getAllBooks = (req, res) => {
     });
 };
 exports.getBook = (req, res) => {
-    const id = req.params.id;
-    books
+  const id = req.params.id;
+  books
     .findById(id)
     .then((data) => res.send(data))
     .catch((err) => {
       res.send(err.message).status(500);
-    }); 
+    });
 };
-exports.updateBook = (req, res) => {};
+exports.updateBook = (req, res) => {
+  const id = req.params.id;
+  books
+    .findByIdAndUpdate(id, req.body)
+    .then((data) => {
+      if (!data) {
+        res.status(404).send({ message: 'tidak dapat mengupdate data' });
+      }
+      res.send({ message: 'data berhasil diupdate' });
+    })
+    .catch((err) => res.status(500).send({ message: err.message }));
+};
 exports.deleteBook = (req, res) => {
-    const id = req.params.id;
-    books.findByIdAndDelete(id)
-        .then((data) => {
-            if (!data) {
-                res.status(404).send({message: "tidak dapat menghapus data"})
-            }
-            res.send({message: "data berhasil dihapus"})
-        })
-        .catch((err) => res.status(500).send({message: err.message}))
+  const id = req.params.id;
+  books
+    .findByIdAndDelete(id)
+    .then((data) => {
+      if (!data) {
+        res.status(404).send({ message: 'tidak dapat menghapus data' });
+      }
+      res.send({ message: 'data berhasil dihapus' });
+    })
+    .catch((err) => res.status(500).send({ message: err.message }));
 };
 exports.createBook = (req, res) => {
   books
