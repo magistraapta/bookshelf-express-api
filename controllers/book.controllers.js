@@ -1,7 +1,6 @@
-const express = require('express');
 const { getAllBook, getBookById, createBook, deleteBook, updateBook } = require('../models/book.model');
 
-export const getAllBook = async (req, res) => {
+const getBook = async (req, res) => {
   try {
     const book = await getAllBook();
     return res.status(200).json({
@@ -9,28 +8,39 @@ export const getAllBook = async (req, res) => {
       data: book,
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       message: 'Internal server error',
     });
   }
 };
 
-export const getBookById = async (req, res) => {
+const getById = async (req, res) => {
   try {
-    const id = req.params;
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({
+        message: 'ID is required',
+      });
+    }
+
     const book = await getBookById(id);
-    return res.status(200).json({
-      message: 'Success',
-      data: book,
-    });
+    if (book) {
+      return res.status(200).json({
+        message: 'Success',
+        data: book,
+      });
+    }
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       message: 'Internal server error',
     });
   }
 };
 
-export const createBook = async (req, res) => {
+const addBook = async (req, res) => {
   try {
     const { name, author, genre, published } = req.body;
 
@@ -52,30 +62,43 @@ export const createBook = async (req, res) => {
       data: book,
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       message: 'Internal server error',
     });
   }
 };
 
-export const deleteBook = async (req, res) => {
+const removeBook = async (req, res) => {
   try {
-    const id = req.params;
+    const { id } = req.params;
+
+    const existingBook = await getBookById(id);
+    if (!existingBook) {
+      return res.status(404).json({
+        message: 'Book not found',
+      });
+    }
+
     const book = await deleteBook(id);
-    return res.status(200).json({
-      message: 'Success',
-      data: book,
-    });
+
+    if (book) {
+      return res.status(200).json({
+        message: 'Success delete book',
+      });
+    }
+
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       message: 'Internal server error',
     });
   }
 };
 
-export const updateBook = async (req, res) => {
+const changeBook = async (req, res) => {
   try {
-    const id = req.params;
+    const { id } = req.params;
     const existedBook = await getBookById(id);
     if (!existedBook) {
       return res.status(404).json({
@@ -93,16 +116,19 @@ export const updateBook = async (req, res) => {
     });
 
     const updatedBook = await getBookById(id);
-    
+
     if (updated) {
       return res.status(200).json({
-        message: "Success",
-        data: updatedBook
-      })
+        message: 'Success',
+        data: updatedBook,
+      });
     }
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
-      message: "Internal error"
-    })
+      message: 'Internal error',
+    });
   }
 };
+
+module.exports = { getBook, getById, addBook, changeBook, removeBook };

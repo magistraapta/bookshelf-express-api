@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const bookSchema = new mongoose.Schema({
   name: { type: String, required: true },
   author: { type: String, required: true },
@@ -6,9 +7,12 @@ const bookSchema = new mongoose.Schema({
   published: { type: Number, required: true },
 });
 
-export const bookModel = mongoose.model('books', bookSchema);
-export const getAllBook = () => bookModel.find();
-export const getBookById = (id) => bookModel.findById(id);
-export const createBook = (values) => new bookSchema(values).save().then((book) => book.toObject());
-export const deleteBook = (id) => bookModel.findByIdAndDelete(id);
-export const updateBook = (id, values) => bookModel.findByIdAndUpdate(id, values);
+ const bookModel = mongoose.model('books', bookSchema);
+
+ const getAllBook = () => bookModel.find();
+ const getBookById = (id) => bookModel.findById(id);
+ const createBook = (values) => new bookSchema(values).save().then((book) => book.toObject());
+ const deleteBook = (id) => bookModel.findByIdAndDelete(id);
+ const updateBook = (id, values) => bookModel.findByIdAndUpdate(id, values);
+
+module.exports = {getAllBook, getBookById,deleteBook,createBook,updateBook, bookModel}

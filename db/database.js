@@ -1,4 +1,3 @@
+const mongoose = require('mongoose');
 
-module.exports = {
-  dbUrl: 'mongodb://localhost:27017/express-api',
-};
+mongoose.connect('mongodb://localhost:27017/express-api');
