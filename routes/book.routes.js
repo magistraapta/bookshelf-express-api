@@ -37,10 +37,11 @@ route.post('/', async (req, res) => {
 route.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
+
     const book = await bookModel.findById(id);
-    if (!id) {
+    if (!book) {
       return res.status(400).json({
-        message: 'Data tidak ditemukan',
+        message: 'Buku tidak ditemukan',
       });
     }
 
@@ -82,9 +83,11 @@ route.put('/:id', async (req, res) => {
       published,
     });
 
-    return res.status(200).json({
-      message: 'Data berhasil diubah',
-    });
+    if (book) {
+      return res.status(200).json({
+        message: 'Data berhasil diubah',
+      });
+    }
   } catch (error) {
     console.log(error);
     return res.status(500).json({
