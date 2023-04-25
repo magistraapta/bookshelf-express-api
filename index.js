@@ -1,9 +1,17 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const http = require('http');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const port = 3000;
-const db = require('./models');
+const router = require('./routes/book.routes');
+const { bookModel } = require('./models/book.model');
 
+require('./db/database');
+
+app.use(cookieParser());
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(
   cors({
@@ -11,16 +19,9 @@ app.use(
   })
 );
 
-//koneksi database
-db.mongoose
-  .connect(db.url)
-  .then(console.log('berhasil terhubung ke database'))
-  .catch((err) => {
-    console.log(err.message);
-    process(exit);
-  });
+const server = http.createServer(app);
 
-require('./routes/book.routes')(app);
-app.listen(port, () => {
+app.use('/books', router);
+server.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
