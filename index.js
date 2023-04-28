@@ -6,8 +6,8 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const port = 3000;
 const router = require('./routes/book.routes');
-const { bookModel } = require('./models/book.model');
 
+app.set('view engine', 'ejs')
 require('./db/database');
 
 app.use(cookieParser());
