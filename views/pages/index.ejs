@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head') %>
+</head>
+<body>
+    <header>
+        <%- include('../partials/header') %>
+    </header>
+    
+    <main class="mt-5">
+        <div class="container bg-light rounded-3">
+            <div class="row p-5 ">
+                <div class="col ">
+                    <h2 class="fw-semibold fs-2 text-center">Welcome to BookStore!</h2>
+                    <p class="text-center">The biggest book store in town</p>
+                </div>
+            </div>
+            <div class="row px-5">
+                <div class="col ">
+                    <h2 class=" fs-2 text-center">The list of books</h2>
+                </div>
+            </div>
+            <div class="row pb-5 px-5">
+                <div class="col text-light ">
+                    <ul class="list-unstyled  ">
+                        <% bookList.forEach((article)=> { %>
+                            <li class="bg-primary px-4 py-2 rounded-3 mt-4">
+                                <a href="/detail" class="text-white text-decoration-none">
+                                    <h4>
+                                        <%= article.nama %>
+                                    </h4>
+                                    <p>
+                                        <%= article.author %>
+                                    </p>
+                                </a>
+                                <button class=" btn btn-danger ">delete</button>
+                                <button class="btn btn-light">Update</button>
+                            </li>
+                        <% }) %>
+                    </ul>
+                
+                </div>
+            </div>
+        </div>
+      </main>
+
+    <footer>
+        <%- include('../partials/footer') %>
+    </footer>
+
+</body>
+</html>
