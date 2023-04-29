@@ -6,8 +6,9 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const port = 3000;
 const router = require('./routes/book.routes');
+const testRouter = require('./routes/test.routes');
 
-app.set('view engine', 'ejs')
+app.set('view engine', 'ejs');
 require('./db/database');
 
 app.use(cookieParser());
@@ -22,6 +23,7 @@ app.use(
 const server = http.createServer(app);
 
 app.use('/books', router);
+app.use('/', testRouter);
 server.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
