@@ -39,7 +39,8 @@ route.get('/detail/:id', function (req, res) {
     const title = 'Book not found'
     res.render('./pages/error', {title});
   }
-  res.render('./pages/detail', { book });
+  const title = 'detail page';
+  res.render('./pages/detail', { book, title });
 });
 
 module.exports = route;
