@@ -4,17 +4,16 @@
     <%- include('../partials/head') %>
 </head>
 <body>
-    <header>
-        <%- include('../partials/header') %>
-    </header>
+    
 
     <div class="container bg-light mt-5 rounded-3">
         <div class="row p-5">
             <div class="col">
-                <h2>Title</h2>
-                <p>Published: 2018</p>
-                <h5 class="fw-light">Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio, eveniet quo asperiores iure tempore explicabo molestiae rerum facere sapiente tenetur repellat autem voluptatibus reiciendis repudiandae eaque ex? Eveniet nemo blanditiis atque, sunt corporis nam facilis nisi voluptate temporibus veniam dolorem illum quia libero omnis doloribus ea esse molestiae ratione dolores nulla reiciendis. Assumenda accusantium tempore, voluptatum earum reiciendis, quod dolorem ad fuga tenetur culpa id quo doloribus mollitia. Et nostrum molestiae accusamus repellat quam ea adipisci, sapiente aperiam iure magnam exercitationem eligendi maxime nam quod dolor optio corporis! Distinctio nostrum totam amet repellat corporis suscipit repellendus dolorum architecto cumque deserunt.</h5>
+                <h2><%= book.name %></h2>
+                <h5 class="fw-light"><%= book.author %></h5>
+                <p class="fw-medium"><%= book.summary %></p>
             </div>
+            <a href="/">Back</a>
         </div>
     </div>
     
