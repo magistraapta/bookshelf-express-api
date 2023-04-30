@@ -36,7 +36,8 @@ route.get('/detail/:id', function (req, res) {
   const id = +req.params.id;
   const book = bookList.find((book) => book.id === id);
   if (!book) {
-    res.render('./pages/error');
+    const title = 'Book not found'
+    res.render('./pages/error', {title});
   }
   res.render('./pages/detail', { book });
 });
