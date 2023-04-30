@@ -25,21 +25,22 @@
                 <div class="col text-light ">
                     <ul class="list-unstyled  ">
                         <% bookList.forEach((article)=> { %>
-                            <li class="bg-primary px-4 py-2 rounded-3 mt-4">
-                                <a href="/detail" class="text-white text-decoration-none">
+                            <li class="bg-primary px-4 py-2 rounded-3 mt-4 d-flex justify-content-between align-items-center">
+                                <a href="/detail/ <%= article.id %>" class="text-white text-decoration-none">
                                     <h4>
-                                        <%= article.nama %>
+                                        <%= article.name %>
                                     </h4>
                                     <p>
                                         <%= article.author %>
                                     </p>
                                 </a>
-                                <button class=" btn btn-danger ">delete</button>
-                                <button class="btn btn-light">Update</button>
+                                <div>
+                                    <button class=" btn btn-danger ">delete</button>
+                                    <button class="btn btn-light">Update</button>
+                                </div>
                             </li>
                         <% }) %>
                     </ul>
-                
                 </div>
             </div>
         </div>
